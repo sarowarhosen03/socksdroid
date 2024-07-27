@@ -10,9 +10,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Set;
 
 import net.typeblog.socks.R;
 import net.typeblog.socks.SocksVpnService;
+
 import static net.typeblog.socks.util.Constants.*;
 
 public class Utility {
@@ -58,7 +60,7 @@ public class Utility {
         try {
             int pid = Integer.parseInt(str.toString().trim().replace("\n", ""));
             Runtime.getRuntime().exec("kill " + pid).waitFor();
-            if(!file.delete())
+            if (!file.delete())
                 Log.w(TAG, "failed to delete pidfile");
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,7 +88,7 @@ public class Utility {
         File f = new File(context.getFilesDir() + "/pdnsd.conf");
 
         if (f.exists()) {
-            if(!f.delete())
+            if (!f.delete())
                 Log.w(TAG, "failed to delete pdnsd.conf");
         }
 
@@ -103,7 +105,7 @@ public class Utility {
 
         if (!cache.exists()) {
             try {
-                if(!cache.createNewFile())
+                if (!cache.createNewFile())
                     Log.w(TAG, "failed to create pdnsd.cache");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -128,8 +130,11 @@ public class Utility {
         }
 
         if (profile.isPerApp()) {
+            Set<String> apps = profile.getAppList();
+
+
             i.putExtra(INTENT_APP_BYPASS, profile.isBypassApp())
-                    .putExtra(INTENT_APP_LIST, profile.getAppList().split("\n"));
+                    .putExtra(INTENT_APP_LIST,  apps.toArray(new String[apps.size()]));
         }
 
         if (profile.hasUDP()) {

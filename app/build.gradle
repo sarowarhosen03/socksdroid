@@ -1,22 +1,57 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
     defaultConfig {
+        compileSdk 34
         applicationId "net.typeblog.socks"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 36
+
         versionCode 13
         versionName "1.0.4"
     }
+
+
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        aidl true
+    }
+    namespace 'net.typeblog.socks'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.google.guava:guava:31.0.1-android'
+    implementation('org.slf4j:slf4j-android:1.7.35') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+    }
+
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.preference:preference:1.2.1'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }

@@ -1,8 +1,13 @@
 package net.typeblog.socks.util;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import static net.typeblog.socks.util.Constants.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Profile {
     private final SharedPreferences mPref;
@@ -99,12 +104,16 @@ public class Profile {
         mPref.edit().putBoolean(key("appbypass"), is).apply();
     }
 
-    public String getAppList() {
-        return mPref.getString(key("applist"), "");
+    public Set<String> getAppList() {
+//        return mPref.getStringSet(key("applist"), new HashSet<>()); applist will be same for all prifile
+        return mPref.getStringSet("applist", new HashSet<>());
+
     }
 
-    public void setAppList(String list) {
-        mPref.edit().putString(key("applist"), list).apply();
+    public void setAppList(Set<String> list) {
+
+//        mPref.edit().putStringSet(key("applist"), list).apply();
+        mPref.edit().putStringSet("applist", list).apply();
     }
 
     public boolean hasIPv6() {
